@@ -1,139 +1,230 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>One-Place Docs</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="editor.css">
-  <!-- daisy UI -->
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <title>Text Editor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmF/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   
   <style>
-    .sidemargin {
-      margin: 0 80px;
-      margin-top: 10px;
+    /* Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+    * {
+        font-family: 'Poppins';
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+        scroll-padding-top: 2rem;
     }
-    .logo {
-      font-size: 25px;
+
+    body {
+        color: #0e2045;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
     }
-    .logout {
-      font-size: 16px;
-      border: 1px solid red;
-      margin-right: 5px;
+
+    main {
+        flex: 1;
+        position: absolute;
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
     }
-    .share {
-      font-size: 16px;
-      border: 1px solid green;
+
+    img {
+        width: 100%;
     }
-    .navbar-end {
-      display: flex;
-      gap: 10px;
+
+    section {
+        padding: 3rem 0 2rem;
     }
-    .color-picker {
-      display: none;
+
+    a {
+        text-decoration: none;
+        color: #0e2045;
     }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        width: 100%;
+    }
+
+    .btn {
+        background-color: #eaeaea;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        box-shadow: 0 5px 30px 0 rgba(0, 0, 0, .05);
+        transition: .3s ease;
+    }
+
+    .btn:active {
+        scale: 95%;
+    }
+
+    .tools-btn {
+        background-color: #fff;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 2px;
+    }
+
+    .tools-btn:hover {
+        background-color: #eaeaea;
+    }
+
+    .tools-btn:active:hover {
+        background-color: #e1e0e0;
+    }
+
+    .tools-area {
+        background-color: #f8f9fa;
+        width: 100%;
+        padding: 20px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #text {
+        width: 210mm;
+        height: 297mm;
+        resize: none;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border: 3px solid #eaeaea;
+        border-top-color: #f8f9fa;
+        background-color: #fff;
+        outline: none;
+        padding: 10px 12px;
+        margin: 20px auto;
+        box-shadow: 0 5px 30px 0 rgba(0, 0, 0, .1);
+        font-size: 16px;
+        padding-left: 96px;
+        padding-top: 80px;
+      }
+
+    .ashish-credits {
+        background-color: #fff;
+        border: 2px solid #e7e9eb;
+        font-size: smaller;
+        padding: .5rem .5rem;
+        width: 200px;
+        display: flex;
+        column-gap: .3rem;
+        justify-content: center;
+        border-radius: 50px;
+        box-shadow: 0 5px 30px 0 rgba(0, 0, 0, .05);
+        z-index: 9999;
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+    }
+
+    .ashish-credits .icon {
+        color: #8710d8
+    }
+
+    @media (max-width: 1000px) {
+        .container {
+            margin: 0 auto;
+            width: 90%;
+        }
+
+        #text {
+            width: 100%;
+            height: auto;
+        }
+    }
+    .dropbtn {
+  background-color: #fff;
+  color: black;
+  padding: 14px;
+  font-size: 14px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #fff;}
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 </head>
 <body>
-  <!-- navbar -->
-  <div class="sidemargin">
-    <div class="navbar bg-base-100">
-      <div class="navbar-start">
-        <div class="dropdown">
-          <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
-            </svg>
-          </div>
-        </div>
-        <a class="btn btn-ghost text-xl"><span class="logo">One-Place Docs</span></a>
-      </div>
-      <div class="navbar-center hidden lg:flex"></div>
-      <div class="navbar-end">
-        <a class="btn share" href="sharemodal.php">Share</a>
-        <a class="btn logout" href="logout.php">Logout</a>
-      </div>
-    </div>
+  <div class="tools-area">
+    <button id="bold" class="tools-btn">Bold</button>
+    <button id="underline" class="tools-btn">Underline</button>
+    <button id="italic" class="tools-btn">Italic</button>
+    <button id="color" class="tools-btn">Text Color</button>
+    <input type="color" id="color-picker" style="display:none;">
+    <div class="dropdown">
+  <button class="dropbtn tools-btn">Front</button>
+  <div class="dropdown-content">
+    <a href="#">English</a>
+    <a href="#">Bangla</a>
   </div>
-  <!-- navbar end -->
-
-  <main class="container">
-    <div class="tools-area">
-      <div class="tooltip" data-tip="Bold">
-        <button id="bold" class="tools-btn"><i class="fa-solid fa-bold"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Italic">
-        <button id="italic" class="tools-btn"><i class="fa-solid fa-italic"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Underline">
-        <button id="underline" class="tools-btn"><i class="fa-solid fa-underline"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Color">
-        <button id="color" class="tools-btn"><i class="fa-solid fa-font"></i></button>
-        <input type="color" id="color-picker" class="color-picker">
-      </div>
-      <div class="tooltip" data-tip="Font">
-        <button id="font-name" class="tools-btn">
-          <div class="dropdown">
-            <div tabindex="0" role="button" class="btn-sm m-1">Font</div>
-            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow rounded-box w-52">
-              <li><a>English</a></li>
-              <li><a>Bangla</a></li>
-            </ul>
-          </div>
-        </button>
-      </div>
-      <div class="tooltip" data-tip="Insert Link">
-        <button id="insert-link" class="tools-btn"><i class="fa-solid fa-link"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Strikethrough">
-        <button id="strikethrough" class="tools-btn"><i class="fa-solid fa-strikethrough"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Align Left">
-        <button id="justifyLeft" class="tools-btn"><i class="fa-solid fa-align-left"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Align Right">
-        <button id="justifyRight" class="tools-btn"><i class="fa-solid fa-align-right"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Justify Full">
-        <button id="justifyFull" class="tools-btn"><i class="fa-solid fa-align-justify"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Align Center">
-        <button id="justifyCenter" class="tools-btn"><i class="fa-solid fa-align-center"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Unordered List">
-        <button id="unorderedList" class="tools-btn"><i class="fa-solid fa-list-ul"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Increase Font Size">
-        <button id="increaseFontSize" class="tools-btn"><i class="fa-solid fa-plus"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Decrease Font Size">
-        <button id="decreaseFontSize" class="tools-btn"><i class="fa-solid fa-minus"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Insert Image">
-        <button id="insert-image" class="tools-btn"><i class="fa-solid fa-image"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Copy">
-        <button id="copyBtn" class="tools-btn"><i class="fa-regular fa-clipboard"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Reset">
-        <button id="resetBtn" class="tools-btn"><i class="fa-solid fa-rotate-right"></i></button>
-      </div>
-      <div class="tooltip" data-tip="Save">
-        <button id="savebutton" class="tools-btn">Save</button>
-      </div>
-      <div class="tooltip" data-tip="Export">
-        <button id="export" class="tools-btn">Export</button>
-      </div>
-    </div>
-    <div class="txt-area">
-        <div contentEditable="true" class="text" id="text" placeholder="start typing your text to play with..." rows="20"></div>
-        <div style="text-align: center; margin-top: 10px;"></div>
-    </div>
-  </main>
-
+</div>
+    <button id="strikethrough" class="tools-btn">Strikethrough</button>
+    <button id="justifyRight" class="tools-btn">Justify Right</button>
+    <button id="justifyLeft" class="tools-btn">Justify Left</button>
+    <button id="justifyCenter" class="tools-btn">Justify Center</button>
+    <button id="justifyFull" class="tools-btn">Justify Full</button>
+    <button id="unorderedList" class="tools-btn">Unordered List</button>
+    <button id="increaseFontSize" class="tools-btn">Increase Font Size</button>
+    <button id="decreaseFontSize" class="tools-btn">Decrease Font Size</button>
+    <button id="insertImage" class="tools-btn">Insert Image</button>
+    <input type="file" id="imageInput" style="display:none;" accept="image/*">
+    <button id="copyBtn" class="tools-btn">Copy</button>
+    <button id="resetBtn" class="tools-btn">Reset</button>
+    <button id="savebutton" class="tools-btn">Save</button>
+    <button id="export" class="tools-btn">Export</button>
+    <button class="tools-btn"><a class="tools-btn" href="sharemodal.php">Share</a></button>
+    <button class="tools-btn"><a class="tools-btn" href="logout.php">Logout</a></button>
+  </div>
+  <div id="text" contenteditable="true"></div>
   <script src="scripteditor.js"></script>
 </body>
 </html>
